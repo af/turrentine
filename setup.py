@@ -4,7 +4,7 @@ from setuptools import setup
 setup( name='turrentine',
     version = '0.0.1',
     description = 'A very simple CMS for Django',
-    long_description = open(os.path.join(os.path.dirname(__file__), 'README.md')).read(),
+    long_description = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     url = 'https://github/af/turrentine',
 
     author = 'Aaron Franks',

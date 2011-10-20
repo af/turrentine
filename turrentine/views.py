@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponsePermanentRedi
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView
 
+from turrentine import settings as turrentine_settings
 from turrentine.models import CMSPage
 
 class PageView(DetailView):
@@ -29,7 +30,10 @@ class PageView(DetailView):
             raise Http404
 
     def get_template_names(self):
-        return self.object.template_name
+        """
+        Return the page's specified template name, or a fallback if one hasn't been chosen.
+        """
+        return self.object.template_name or turrentine_settings.TURRENTINE_TEMPLATE_FALLBACK
 
     def get(self, request, *args, **kwargs):
         """

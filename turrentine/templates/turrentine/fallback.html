@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{{ page.title }}</title>
+    <meta name="description" content="{{ page.meta_description }}">
+    <meta name="keywords" content="{{ page.meta_keywords }}">
+    <style type="text/css">
+        #turrentine_warning { font-weight:bold; background:#eee; margin-bottom:1em; padding:1em; }
+    </style>
+</head>
+
+<body>
+    <div id="turrentine_warning">
+        <p>You're looking at your page, rendered with the Turrentine CMS's fallback template.</p>
+        <p>
+            Chances are you want to use your own template instead; see
+            <a href="https://github.com/af/turrentine">the setup instructions</a> for more details.
+        </p>
+    </div>
+    <h1>{{ page.title }}</h1>
+    <div>
+        {{ page.content }}
+    </div>
+</body>
+</html>

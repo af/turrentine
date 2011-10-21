@@ -47,8 +47,11 @@ class CMSPage(ChangeableContent):
     title = models.CharField(_('title'), max_length=200)
     content = models.TextField(_('content'), blank=True)
     template_name = models.CharField(_('template name'), max_length=70, blank=True)     # TODO: handle default value
+
+    # BooleanFields that limit access to content:
     is_published = models.BooleanField(_('Published'), default=True)
-    login_required = models.BooleanField(_('Login Required'), help_text=_("Only allow logged-in users to view the page."))
+    login_required = models.BooleanField(_('Login Required'), help_text=_('Only allow logged-in users to view the page.'))
+    staff_only = models.BooleanField(_('Staff only'), help_text=_('Only allow staff users to access this page.'))
 
     # SEO-related fields:
     meta_description = models.TextField(_('SEO description'), blank=True,

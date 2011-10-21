@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.http import Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.shortcuts import render
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView
 
@@ -51,6 +52,13 @@ class PageView(DetailView):
                 return self._try_url_with_appended_slash()
             else:
                 raise Http404
+
+        # Check request.user's credentials in accessing this page:
+        if page.staff_only and not request.user.is_staff:
+            # Block out non-staff users on restricted pages.
+            # Django 1.4 will introduce better HTTP 403 support, but until then
+            # we'll just render a plain "permission denied" template (which can be overridden):
+            return render(request, 'turrentine/403.html', status=403)
         if page.login_required and request.user.is_anonymous():
             redirect_url = '%s?next=%s' % (settings.LOGIN_URL, self.kwargs.get('path', ''))
             return HttpResponseRedirect(redirect_url)

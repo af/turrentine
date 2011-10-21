@@ -27,12 +27,11 @@ class PageAdminForm(forms.ModelForm):
 class PageAdmin(admin.ModelAdmin):
     form = PageAdminForm
 
-    date_hierarchy = 'created_at'
     list_display = ('url', 'title', 'is_published', 'template_name', 'created_by', 'created_at',
-                    'last_modified_by', 'last_modified_at',)
+                    'last_modified_by', 'last_modified_at', 'staff_only')
     list_display_links = ('title',)
     list_editable = ('is_published',)
-    list_filter = ('is_published', 'login_required', 'created_by',)
+    list_filter = ('is_published', 'login_required', 'staff_only', 'created_by',)
     list_select_related = True
     ordering = ('url',)
     save_on_top = True
@@ -40,7 +39,7 @@ class PageAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('url', 'title', 'is_published', 'login_required', 'template_name', 'content'),
+            'fields': ('url', 'title', 'is_published', 'login_required', 'staff_only', 'template_name', 'content'),
         }),
         ('SEO Settings', {
             'classes': ('collapse',),

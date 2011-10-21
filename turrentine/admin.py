@@ -1,4 +1,6 @@
+from urlparse import urljoin
 from django import forms
+from django.conf import settings
 from django.contrib import admin
 
 from turrentine.models import CMSPage
@@ -13,6 +15,13 @@ class PageAdminForm(forms.ModelForm):
     """
     class Meta:
         model = CMSPage
+
+    class Media:
+        css = {
+            'all': (
+                urljoin(settings.STATIC_URL, 'turrentine/css/page_edit.css'),
+            )
+        }
 
     def save(self, *args, **kwargs):
         """

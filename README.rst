@@ -29,7 +29,11 @@ Things Turrentine does **not** do:
   `django-admin-uploads`, or `django-filebrowser` if you need that).
 * Auto-generated menus
 * Template editing in the admin
+* Multi-site support
+* Commenting on pages
 * Internationalization (although this might be worth adding later)
+* Automatic versioning of content (although adding hooks for django-revision
+  would be interesting)
 
 Consider Turrentine if...
 -------------------------
@@ -64,8 +68,22 @@ Setup
         (r'^', include('turrentine.urls')),     # Make sure this is the last entry
     )
 
+#. If you haven't already, you probably also want to enable django's dev static
+   file serving in your `urls.py`. This will ensure that turrentine's admin css/js will work
+   while in development::
 
-#. Also in settings.py, define a `CMS_TEMPLATE_ROOT`. This is the directory on
+        from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+        # ... the rest of your URLconf here ...
+
+        urlpatterns += staticfiles_urlpatterns()
+
+   More info and background on this can be found at
+   https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-development-view
+
+#. Run `python manage.py syncdb` to add turrentine's tables to your database.
+
+#. Back in settings.py, define a `CMS_TEMPLATE_ROOT`. This is the directory on
    your filesystem where Turrentine looks for CMS template files. The following
    will probably work for your project::
 
@@ -73,7 +91,8 @@ Setup
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
     CMS_TEMPLATE_ROOT = os.path.join(PROJECT_ROOT, 'templates', 'cms')
 
-#. As indicated in the previous step, create a directory for your CMS templates::
+#. Create a directory for your CMS templates, corresponding to the setting you
+   made in the previous step::
 
     mkdir -p templates/cms
 

@@ -35,6 +35,16 @@ class CMSPageManager(models.Manager):
         if not url_value.startswith('/'):
             raise ValidationError(_('URLs need to be absolute (they should start with a "/").'))
 
+    def create(self, *args, **kwargs):
+        """
+        Allow an 'author' kwarg to automatically fill in the created_by and last_modified_by fields.
+        """
+        if kwargs.has_key('author'):
+            kwargs['created_by'] = kwargs['author']
+            kwargs['last_modified_by'] = kwargs['author']
+            del kwargs['author']
+        return super(CMSPageManager, self).create(*args, **kwargs)
+
 
 
 class CMSPage(ChangeableContent):

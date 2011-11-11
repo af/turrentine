@@ -83,8 +83,10 @@ Setup
 
 #. Run `python manage.py syncdb` to add turrentine's tables to your database.
 
-#. Back in settings.py, define a `TURRENTINE_TEMPLATE_ROOT`. This is the directory on
-   your filesystem you keep most of your templates (generally $PROJECT_ROOT/templates).
+#. Back in settings.py, define `TURRENTINE_TEMPLATE_ROOT` and `TURRENTINE_TEMPLATE_SUBDIR`.
+   The former is the directory on your filesystem where you keep most of your templates
+   (generally this is $PROJECT_ROOT/templates). The latter is the subdirectory where you
+   want to put templates that the cms can use.
    The following will probably work for your project::
 
     import os.path
@@ -97,9 +99,9 @@ Setup
 
     mkdir -p templates/cms
 
-#. Create template(s) in your `CMS_TEMPLATE_ROOT`, so they can be used by your pages.
-   You'll probably want to use the following template variables (which are hopefully
-   self-explanatory):
+#. Create template(s) in the `TURRENTINE_TEMPLATE_SUBDIR` directory, so they can be
+   used by your pages. You'll probably want to use the following template variables
+   (which are hopefully self-explanatory):
 
     - `{{ page.title }}`
     - `{{ page.content }}`

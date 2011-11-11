@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -80,3 +81,19 @@ class CMSPage(ChangeableContent):
 
     def get_absolute_url(self):
         return self.url
+
+    @staticmethod
+    def get_template_options():
+        """
+        Returns a list of all templates that can be used for CMS pages.
+        The paths that are returned are relative to TURRENTINE_TEMPLATE_ROOT.
+        """
+        template_root = turrentine_settings.TURRENTINE_TEMPLATE_ROOT
+        turrentine_dir = turrentine_settings.TURRENTINE_TEMPLATE_SUBDIR
+        output = []
+        for root, dirs, files in os.walk(turrentine_dir):
+            for file_name in files: 
+                full_path = os.path.join(root, file_name)
+                relative_path = os.path.relpath(full_path, template_root)
+                output.append(relative_path)
+        return output

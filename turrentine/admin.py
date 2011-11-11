@@ -13,6 +13,8 @@ class PageAdminForm(forms.ModelForm):
     The calling code must set a 'user' attribute to the django User that submitted
     the form in the admin.
     """
+    template_name = forms.ChoiceField(label='Template', choices=[(t,t) for t in CMSPage.get_template_options()])
+
     class Meta:
         model = CMSPage
 

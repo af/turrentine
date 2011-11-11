@@ -83,13 +83,14 @@ Setup
 
 #. Run `python manage.py syncdb` to add turrentine's tables to your database.
 
-#. Back in settings.py, define a `CMS_TEMPLATE_ROOT`. This is the directory on
-   your filesystem where Turrentine looks for CMS template files. The following
-   will probably work for your project::
+#. Back in settings.py, define a `TURRENTINE_TEMPLATE_ROOT`. This is the directory on
+   your filesystem you keep most of your templates (generally $PROJECT_ROOT/templates).
+   The following will probably work for your project::
 
     import os.path
     PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-    CMS_TEMPLATE_ROOT = os.path.join(PROJECT_ROOT, 'templates', 'cms')
+    TURRENTINE_TEMPLATE_ROOT = os.path.join(PROJECT_ROOT, 'templates')
+    TURRENTINE_TEMPLATE_SUBDIR = os.path.join(TURRENTINE_TEMPLATE_ROOT, 'cms')
 
 #. Create a directory for your CMS templates, corresponding to the setting you
    made in the previous step::

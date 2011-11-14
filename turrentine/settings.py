@@ -15,6 +15,12 @@ TURRENTINE_TEMPLATE_SUBDIR = getattr(settings, 'TURRENTINE_TEMPLATE_ROOT', defau
 # The template to use for rendering a page if CMSPage.template_name is not specified:
 TURRENTINE_TEMPLATE_FALLBACK = getattr(settings, 'TURRENTINE_TEMPLATE_ROOT', 'turrentine/fallback.html')
 
-# The amount of time (in seconds) to cache CMS pages, if caching is enabled.
-# Disabled (time = 0) by default, so override this in settings.py to enable caching.
-TURRENTINE_PAGE_CACHE_TIME = getattr(settings, 'TURRENTINE_PAGE_CACHE_TIME', 0)
+# List of MIME types to infer, based on the extension of the template name that was used:
+TURRENTINE_MIMETYPE_EXTENSIONS = getattr(settings, 'TURRENTINE_MIMETYPE_EXTENSIONS', (
+    ('.html', 'text/html'),
+    ('.js', 'text/javascript'),
+    ('.json', 'application/json'),
+    ('.txt', 'text/plain'),
+    ('.xhtml', 'application/xhtml+xml'),
+    ('.xml', 'application/xml'),
+))

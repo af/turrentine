@@ -7,6 +7,7 @@ from django.views.generic import DetailView
 from turrentine import settings as turrentine_settings
 from turrentine.models import CMSPage
 
+
 class PageView(DetailView):
     """
     Render a CMS page, using django's generic DetailView.
@@ -34,7 +35,18 @@ class PageView(DetailView):
         """
         Return the page's specified template name, or a fallback if one hasn't been chosen.
         """
-        return self.object.template_name or turrentine_settings.TURRENTINE_TEMPLATE_FALLBACK
+        name = self.object.template_name or turrentine_settings.TURRENTINE_TEMPLATE_FALLBACK
+        return [name,]
+
+    def get_mimetype(self):
+        """
+        Use the ending of the template name to infer response's Content-Type header.
+        """
+        template_name = self.get_template_names()[0]
+        for extension, mimetype in turrentine_settings.TURRENTINE_MIMETYPE_EXTENSIONS:
+            if template_name.endswith(extension):
+                return mimetype
+        return 'text/html'      # Fallback to text/html if nothing matches
 
     def get(self, request, *args, **kwargs):
         """
@@ -64,7 +76,7 @@ class PageView(DetailView):
             return HttpResponseRedirect(redirect_url)
         else:
             context = self.get_context_data(object=self.object)
-            return self.render_to_response(context)
+            return self.render_to_response(context, content_type=self.get_mimetype())
 
     def _try_url_with_appended_slash(self):
         """

@@ -4,19 +4,15 @@ Turrentine
 
 Turrentine is a simple content management app for Django (1.3 and later).
 
-What, *another* CMS app? Yes, but I tried several before deciding that I couldn't
-find one with a few more features than flatpages, but not much more.
-
 Turrentine is:
 --------------
 
 * Simple: very little code, and few features by design.
-* Dependency-free, unlike some other "basic" CMS apps that still require you
-  to pull in 3-5 other packages.
+* Dependency-free
 * Easy on the database. A user viewing a CMS page should never generate more
-  than one or two performant database queries.
+  than one or two simple database queries.
 * Kind of a half-way point between Django's basic flatpages app, and other simple
-  third-party CMSes like gnocchi-cms. Both apps served as a starting point for
+  third-party CMSes like ``gnocchi-cms``. Both apps served as a starting point for
   turrentine.
 
 Things Turrentine does **not** do:
@@ -25,8 +21,8 @@ Things Turrentine does **not** do:
 * Tree-like page hierarchies. Like flatpages, with turrentine you just specify
   the page's URL directly.
 * WYSIWYG editing
-* File uploads in the admin (add something like `django-adminfiles`,
-  `django-admin-uploads`, or `django-filebrowser` if you need that).
+* File uploads in the admin (add something like ``django-adminfiles``,
+  ``django-admin-uploads``, or ``django-filebrowser`` if you need that).
 * Auto-generated menus
 * Template editing in the admin
 * Multi-site support
@@ -39,11 +35,11 @@ Consider Turrentine if...
 -------------------------
 
 * You don't need any of the stuff in the previous section
-* You want a simple CMS app that is easy to configure, and for the most part
-  just gets out of your way.
 * You have page authors who are comfortable writing html, but you don't want
   them to have to write (or even think about) django templates.
   You have developers/designers that develop your templates for the CMS.
+* You want a simple CMS app that is easy to configure, and for the most part
+  just gets out of your way.
 
 
 Setup
@@ -78,12 +74,17 @@ Setup
 
         urlpatterns += staticfiles_urlpatterns()
 
+        # Again, make sure turrentine comes last, even after the staticfiles_urlpatterns:
+        urlpatterns += patterns('',
+            (r'^', include('turrentine.urls')),
+        )
+
    More info and background on this can be found at
    https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-development-view
 
-#. Run `python manage.py syncdb` to add turrentine's tables to your database.
+#. Run ``python manage.py syncdb`` to add turrentine's tables to your database.
 
-#. Back in settings.py, define `TURRENTINE_TEMPLATE_ROOT` and `TURRENTINE_TEMPLATE_SUBDIR`.
+#. Back in settings.py, define ``TURRENTINE_TEMPLATE_ROOT`` and ``TURRENTINE_TEMPLATE_SUBDIR``.
    The former is the directory on your filesystem where you keep most of your templates
    (generally this is $PROJECT_ROOT/templates). The latter is the subdirectory where you
    want to put templates that the cms can use.
@@ -99,14 +100,14 @@ Setup
 
     mkdir -p templates/cms
 
-#. Create template(s) in the `TURRENTINE_TEMPLATE_SUBDIR` directory, so they can be
+#. Create template(s) in the ``TURRENTINE_TEMPLATE_SUBDIR`` directory, so they can be
    used by your pages. You'll probably want to use the following template variables
    (which are hopefully self-explanatory):
 
-    - `{{ page.title }}`
-    - `{{ page.content }}`
-    - `{{ page.meta_description }}`
-    - `{{ page.meta_keywords }}`
+    - ``{{ page.title }}``
+    - ``{{ page.content }}``
+    - ``{{ page.meta_description }}``
+    - ``{{ page.meta_keywords }}``
 
 
 The Name

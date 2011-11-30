@@ -65,9 +65,9 @@ class CMSPage(ChangeableContent):
     staff_only = models.BooleanField(_('Staff only'), help_text=_('Only allow staff users to access this page.'))
 
     # SEO-related fields:
-    meta_description = models.TextField(_('SEO description'), blank=True,
+    meta_description = models.TextField(_('Meta description'), blank=True,
                                         help_text=_('Will be placed in a meta description tag'))
-    meta_keywords = models.CharField(_('SEO keywords'), max_length=300, blank=True,
+    meta_keywords = models.CharField(_('Meta keywords'), max_length=300, blank=True,
                                      help_text=_('Will be placed in a meta keywords tag'))
 
     objects = CMSPageManager()

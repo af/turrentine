@@ -24,6 +24,9 @@ class PageAdminForm(forms.ModelForm):
                 urljoin(settings.STATIC_URL, 'turrentine/css/page_edit.css'),
             )
         }
+        js = (
+            urljoin(settings.STATIC_URL, 'turrentine/js/iframe_preview.js'),
+        )
 
     def save(self, *args, **kwargs):
         """
@@ -50,11 +53,18 @@ class PageAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('url', 'title', 'is_published', 'login_required', 'staff_only', 'template_name', 'content'),
+            'fields': ('url', 'title', 'template_name',),
         }),
-        ('SEO Settings', {
+        ('Content', {
+            'fields': ('content',),
+        }),
+        ('Access Control', {
+            'fields': ('is_published', 'login_required', 'staff_only',),
             'classes': ('collapse',),
+        }),
+        ('SEO Fields', {
             'fields': ('meta_description', 'meta_keywords'),
+            'classes': ('collapse',),
         }),
     )
 

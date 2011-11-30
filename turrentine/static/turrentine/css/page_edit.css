@@ -1,7 +1,21 @@
-#id_title { font-size:1.2em; font-weight:bold; }
+#id_title { font-size:1.3em; font-weight:bold; }
+label[for=id_content] { display:none; }
 #id_content {
     font-family: monospace;
-    width: 95%;
+    width: 60%;
     min-height: 500px;
-    background: -webkit-linear-gradient(#fff, #eee)
+    background: -webkit-linear-gradient(#fff, #eee);
+    font-size:1.3em;
+}
+
+#preview_container {
+    width:37%; height:500px; float:right;
+    margin:0 1em;
+    position:relative;
+}
+#live_preview {
+    width:200%; height:1000px;
+    -webkit-transform:scale(0.5);
+    -webkit-transform-origin:top left;
+    border:1px solid #aaa;
 }

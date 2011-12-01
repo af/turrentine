@@ -1,9 +1,11 @@
 from urlparse import urljoin
 from django import forms
 from django.conf import settings
+from django.conf.urls.defaults import patterns
 from django.contrib import admin
 
 from turrentine.models import CMSPage
+from turrentine.views import PageView
 
 
 class PageAdminForm(forms.ModelForm):
@@ -72,4 +74,41 @@ class PageAdmin(admin.ModelAdmin):
          form = super(PageAdmin, self).get_form(request, obj, **kwargs)
          form.user = request.user
          return form
+
+    def get_urls(self):
+        """
+        Add our preview view to our urls.
+        """
+        urls = super(PageAdmin, self).get_urls()
+        my_urls = patterns('',
+            (r'^(?P<id>\d+)/preview$', self.admin_site.admin_view(PagePreviewView.as_view()))
+        )
+        return my_urls + urls
+
 admin.site.register(CMSPage, PageAdmin)
+
+
+class PagePreviewView(PageView):
+    """
+    Subclass of PageView that supports POST requests for admin previews.
+
+    It accepts POST parameters for the page's title and content, and returns the page
+    with this data substituded in.
+    """
+
+    def get_object(self, queryset=None):
+        from django.shortcuts import get_object_or_404
+        page = get_object_or_404(CMSPage, id=self.kwargs.get('id', 0))
+        return page
+
+    def post(self, request, *args, **kwargs):
+        """
+        Accepts POST requests, and substitute the data in for the page's attributes.
+        """
+        self.object = self.get_object()
+        self.object.content = request.POST['content']
+        self.object.title = request.POST['title']
+
+        self.object = self._mark_html_fields_as_safe(self.object)
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context, content_type=self.get_mimetype())

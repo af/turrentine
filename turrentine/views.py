@@ -23,13 +23,9 @@ class PageView(DetailView):
             url = '/' + url
         try:
             page = CMSPage.objects.published().get(url=url)
-            # Mark the html content as safe so we don't have to use the safe
-            # template tag in all cms templates:
-            page.title = mark_safe(page.title)
-            page.content = mark_safe(page.content)
-            return page
         except CMSPage.DoesNotExist:
             raise Http404
+        return page
 
     def get_template_names(self):
         """
@@ -75,6 +71,7 @@ class PageView(DetailView):
             redirect_url = '%s?next=%s' % (settings.LOGIN_URL, self.kwargs.get('path', ''))
             return HttpResponseRedirect(redirect_url)
         else:
+            self.object = self._mark_html_fields_as_safe(self.object)
             context = self.get_context_data(object=self.object)
             return self.render_to_response(context, content_type=self.get_mimetype())
 
@@ -90,3 +87,13 @@ class PageView(DetailView):
             return HttpResponsePermanentRedirect(new_url_to_try)
         else:
             raise Http404
+
+    def _mark_html_fields_as_safe(self, page):
+        """
+        Mark the html content as safe so we don't have to use the safe
+        template tag in all cms templates:
+        """
+        page.title = mark_safe(page.title)
+        page.content = mark_safe(page.content)
+        return page
+

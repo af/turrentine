@@ -15,8 +15,17 @@ label[for=id_content] { display:none; }
 }
 #live_preview {
     width:200%; height:1000px;
-    -webkit-transform:scale(0.5);
-    -webkit-transform-origin:top left;
     border:1px solid #aaa;
     box-shadow:0px 12px 21px #ccc;
+
+    -webkit-transform:scale(0.5);
+    -webkit-transform-origin:top left;
+    -moz-transform:scale(0.5);
+    -moz-transform-origin:top left;
+    -o-transform:scale(0.5);
+    -o-transform-origin:top left;
+    -ms-transform:scale(0.5);
+    -ms-transform-origin:top left;
+    transform:scale(0.5);
+    transform-origin:top left;
 }

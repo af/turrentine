@@ -101,6 +101,16 @@ class PagePreviewView(PageView):
         page = get_object_or_404(CMSPage, id=self.kwargs.get('id', 0))
         return page
 
+    def get_template_names(self):
+        """
+        Return the page's specified template name, or a fallback if one hasn't been chosen.
+        """
+        posted_name = self.request.POST.get('template_name')
+        if posted_name:
+            return [posted_name,]
+        else:
+            return super(PagePreviewView, self).get_template_names()
+
     def post(self, request, *args, **kwargs):
         """
         Accepts POST requests, and substitute the data in for the page's attributes.

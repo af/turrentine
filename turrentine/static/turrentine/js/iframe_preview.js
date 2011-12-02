@@ -4,8 +4,10 @@
     var iframe_name = 'live_preview';   // Name (and id) to give to the preview iframe
     var preview_url = 'preview';        // Relative url to send the POST data to
     var keypress_delay = 400;           // Number of milliseconds to wait before acting on keypress
+
     var latest_change = new Date();
     var latest_contents = '';
+    var form_has_changed = false;
 
     var form, textarea;
 
@@ -14,6 +16,7 @@
     function update_preview(e) {
         var timestamp = new Date();
         latest_change = timestamp;
+        form_has_changed = true;
 
         setTimeout(function() {
             // If no changes/keypresses have occurred since this one, and the
@@ -49,5 +52,16 @@
             // Update iframe when the title or template fields change as well:
             $('#id_title, #id_template_name').change(update_preview);
         }
+
+        // If submitting the form normally (Save button), prevent beforeunlod event:
+        form.bind('submit', function(e) {
+            var is_regular_submission = !e.target.target;
+            if (is_regular_submission) {
+                form_has_changed = false;
+            }
+        });
+        $(window).bind('beforeunload', function(e) {
+            if (form_has_changed) { return 'You have unsaved changes!'; }
+        });
     });
 }(window, django.jQuery));

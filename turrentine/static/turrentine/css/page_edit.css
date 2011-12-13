@@ -2,15 +2,16 @@
 label[for=id_content] { display:none; }
 #id_content {
     font-family: monospace;
-    width: 60%;
+    width: 52%;
     min-height: 500px;
     background: -webkit-linear-gradient(#fff, #eee);
     font-size:1.3em;
+    float:left;
 }
 
 #preview_container {
-    width:37%; height:500px; float:right;
-    margin:0 1em;
+    width:45%; height:500px; float:left;
+    margin:0 0 0 1em;
     position:relative;
 }
 #live_preview {

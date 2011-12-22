@@ -3,7 +3,7 @@
 
     var iframe_name = 'live_preview';   // Name (and id) to give to the preview iframe
     var preview_url = 'preview';        // Relative url to send the POST data to
-    var keypress_delay = 400;           // Number of milliseconds to wait before acting on keypress
+    var keypress_delay = 800;           // Number of milliseconds to wait before acting on keypress
 
     var latest_change = new Date();
     var latest_contents = '';

@@ -21,8 +21,6 @@ Things Turrentine does **not** do:
 * Tree-like page hierarchies. Like flatpages, with turrentine you just specify
   the page's URL directly.
 * WYSIWYG editing
-* File uploads in the admin (add something like ``django-adminfiles``,
-  ``django-admin-uploads``, or ``django-filebrowser`` if you need that).
 * Auto-generated menus
 * Template editing in the admin
 * Multi-site support

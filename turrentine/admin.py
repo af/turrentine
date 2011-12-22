@@ -4,11 +4,22 @@ from django.conf import settings
 from django.conf.urls.defaults import patterns
 from django.contrib import admin
 
-from turrentine.models import CMSPage
+from turrentine.models import CMSPage, FileUpload
 from turrentine.views import PageView
 
 
-class PageAdminForm(forms.ModelForm):
+class ChangeableContentForm(forms.ModelForm):
+    def save(self, *args, **kwargs):
+        """
+        Save the created_by and last_modified_by fields based on the current admin user.
+        """
+        if not self.instance.id:
+            self.instance.created_by = self.user
+        self.instance.last_modified_by = self.user
+        return super(ChangeableContentForm, self).save(*args, **kwargs)
+
+
+class PageAdminForm(ChangeableContentForm):
     """
     Form class to be used when editing CMS pages in the admin.
 
@@ -30,14 +41,18 @@ class PageAdminForm(forms.ModelForm):
             urljoin(settings.STATIC_URL, 'turrentine/js/iframe_preview.js'),
         )
 
-    def save(self, *args, **kwargs):
-        """
-        Save the created_by and last_modified_by fields based on the current admin user.
-        """
-        if not self.instance.id:
-            self.instance.created_by = self.user
-        self.instance.last_modified_by = self.user
-        return super(PageAdminForm, self).save(*args, **kwargs)
+
+class FileUploadAdmin(admin.ModelAdmin):
+    form = ChangeableContentForm
+    list_display = ('__unicode__', 'url', 'created_by', 'created_at')
+    exclude = ('created_by', 'last_modified_by',)
+    ordering = ('file',)
+
+    def get_form(self, request, obj=None, **kwargs):
+         form = super(FileUploadAdmin, self).get_form(request, obj, **kwargs)
+         form.user = request.user
+         return form
+admin.site.register(FileUpload, FileUploadAdmin)
 
 
 class PageAdmin(admin.ModelAdmin):

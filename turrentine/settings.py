@@ -24,3 +24,6 @@ TURRENTINE_MIMETYPE_EXTENSIONS = getattr(settings, 'TURRENTINE_MIMETYPE_EXTENSIO
     ('.xhtml', 'application/xhtml+xml'),
     ('.xml', 'application/xml'),
 ))
+
+# Directory, relative to MEDIA_ROOT, where CMS file uploads are stored:
+TURRENTINE_UPLOAD_DIR = getattr(settings, 'TURRENTINE_UPLOAD_DIR', 'cms')

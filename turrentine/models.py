@@ -2,7 +2,9 @@ import os
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+
 
 from turrentine import settings as turrentine_settings
 
@@ -12,9 +14,9 @@ class ChangeableContent(models.Model):
     Abstract base class that provides creation/modification information for content.
     """
     created_at = models.DateTimeField(auto_now_add=True)    # TODO: set this in the admin form
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(User, related_name='+')
     last_modified_at = models.DateTimeField(auto_now=True)
-    last_modified_by = models.ForeignKey(User, related_name='%(app_label)s_last_author')
+    last_modified_by = models.ForeignKey(User, related_name='+')
 
     class Meta:
         abstract = True
@@ -97,3 +99,26 @@ class CMSPage(ChangeableContent):
                 relative_path = os.path.relpath(full_path, template_root)
                 output.append(relative_path)
         return output
+
+
+class FileUpload(ChangeableContent):
+    """
+    Simple wrapper model for a CMS-uploaded file.
+    """
+    file = models.FileField(upload_to=turrentine_settings.TURRENTINE_UPLOAD_DIR)
+
+    def __unicode__(self):
+        upload_prefix = turrentine_settings.TURRENTINE_UPLOAD_DIR + '/'
+        return self.file.name.strip(upload_prefix)
+
+    @property
+    def url(self):
+        return self.file.url
+
+@receiver(models.signals.pre_delete, sender=FileUpload)
+def cleanup_answer_on_delete(sender, **kwargs):
+    """
+    Delete the file from the filesystem when a FileUpload is deleted.
+    """
+    instance = kwargs['instance']
+    instance.file.delete()

@@ -18,4 +18,5 @@ setup( name='turrentine',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
     ],
+    include_package_data=True,
 )

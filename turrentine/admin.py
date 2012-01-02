@@ -27,6 +27,7 @@ class PageAdminForm(ChangeableContentForm):
     the form in the admin.
     """
     template_name = forms.ChoiceField(label='Template', choices=[(t,t) for t in CMSPage.get_template_options()])
+    content = forms.CharField(widget=forms.Textarea(), initial='<h1>Enter your page content here</h1>')
 
     class Meta:
         model = CMSPage
@@ -96,7 +97,8 @@ class PageAdmin(admin.ModelAdmin):
         """
         urls = super(PageAdmin, self).get_urls()
         my_urls = patterns('',
-            (r'^(?P<id>\d+)/preview$', self.admin_site.admin_view(PagePreviewView.as_view()))
+            (r'^add/preview$', self.admin_site.admin_view(PagePreviewView.as_view())),
+            (r'^(?P<id>\d+)/preview$', self.admin_site.admin_view(PagePreviewView.as_view())),
         )
         return my_urls + urls
 
@@ -113,7 +115,13 @@ class PagePreviewView(PageView):
 
     def get_object(self, queryset=None):
         from django.shortcuts import get_object_or_404
-        page = get_object_or_404(CMSPage, id=self.kwargs.get('id', 0))
+        id = self.kwargs.get('id', 0)
+        if id:
+            page = get_object_or_404(CMSPage, id=self.kwargs.get('id', 0))
+        else:
+            # Handle the case where the preview is invoked from the "add" page.
+            # No CMSPage instance will have been saved yet, so create a new one:
+            page = CMSPage()
         return page
 
     def get_template_names(self):

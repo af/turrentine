@@ -106,6 +106,7 @@ class PageAdmin(admin_base_class):
         my_urls = patterns('',
             (r'^add/preview$', self.admin_site.admin_view(PagePreviewView.as_view())),
             (r'^(?P<id>\d+)/preview$', self.admin_site.admin_view(PagePreviewView.as_view())),
+            (r'^(?P<id>\d+)/history/(\d+)/preview$', self.admin_site.admin_view(PagePreviewView.as_view())),
         )
         return my_urls + urls
 

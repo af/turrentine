@@ -2,38 +2,40 @@
 Turrentine
 ==========
 
-Turrentine is a simple content management app for Django (1.3 and later).
+Turrentine is a simple content management app for Django (1.3 and later). It's
+designed to allow HTML-savvy users to add and edit pages and files with a minimum of
+hassle.
 
-Turrentine is:
---------------
+Features
+--------
 
-* Simple: very little code, and few features by design.
-* Dependency-free
+* Live previews while editing pages in the admin (this uses javascript and
+  CSS3, so a modern browser is highly recommended).
+* Very basic file uploads in the admin.
+* Optional version tracking for pages, if you install ``django-reversion``.
+* No hard dependencies.
 * Easy on the database. A user viewing a CMS page should never generate more
   than one or two simple database queries.
-* Kind of a half-way point between Django's basic flatpages app, and other simple
-  third-party CMSes like ``gnocchi-cms``. Both apps served as a starting point for
-  turrentine.
 
 Things Turrentine does **not** do:
 ----------------------------------
 
 * Tree-like page hierarchies. Like flatpages, with turrentine you just specify
   the page's URL directly.
-* WYSIWYG editing
-* Auto-generated menus
-* Template editing in the admin
-* Multi-site support
-* Commenting on pages
-* Internationalization (although this might be worth adding later)
+* WYSIWYG editing. It's assumed that page authors know some basic HTML.
+* Auto-generated menus.
+* Template editing in the admin.
+* Multi-site support.
+* Commenting on pages.
+* Internationalization (although this might be worth adding later).
 
 Consider Turrentine if...
 -------------------------
 
-* You don't need any of the stuff in the previous section
-* You have page authors who are comfortable writing html, but you don't want
-  them to have to write (or even think about) django templates.
-  You have developers/designers that develop your templates for the CMS.
+* You don't need any of the stuff in the previous section.
+* You have page authors who are comfortable writing HTML, but you don't want
+  them to have to write (or even think about) django templates. You have
+  developers/designers that will develop your templates for CMS pages.
 * You want a simple CMS app that is easy to configure, and for the most part
   just gets out of your way.
 
@@ -110,10 +112,11 @@ Adding Support for Versioned Content
 ------------------------------------
 
 Out of the box, turrentine doesn't track revisions of your content. However, if
-you'd like to be able to roll back to previous versions of your CMS pages,
-install the very nice ``django-reversion`` app. Once the latter is fully installed and
-configured, you'll be able to access previous versions of Turrentine CMS pages in the
-admin (using the "History" link in the top right corner).
+you'd like to enable version tracking, install the very nice `django-reversion
+<https://github.com/etianen/django-reversion>`_ app. Once ``django-reversion`` is `installed and
+configured <https://github.com/etianen/django-reversion/wiki>`_, you'll be able to access
+previous versions of Turrentine CMS pages in the admin (using the "History" link in the
+top right corner).
 
 
 The Name

@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup( name='turrentine',
-    version = '0.0.2',
-    description = 'A very simple CMS for Django',
+    version = '0.0.3',
+    description = 'A simple CMS for Django',
     url = 'https://github/af/turrentine',
 
     author = 'Aaron Franks',

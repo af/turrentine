@@ -26,8 +26,6 @@ Things Turrentine does **not** do:
 * Multi-site support
 * Commenting on pages
 * Internationalization (although this might be worth adding later)
-* Automatic versioning of content (although adding hooks for django-revision
-  would be interesting)
 
 Consider Turrentine if...
 -------------------------
@@ -106,6 +104,16 @@ Setup
     - ``{{ page.content }}``
     - ``{{ page.meta_description }}``
     - ``{{ page.meta_keywords }}``
+
+
+Adding Support for Versioned Content
+------------------------------------
+
+Out of the box, turrentine doesn't track revisions of your content. However, if
+you'd like to be able to roll back to previous versions of your CMS pages,
+install the very nice ``django-reversion`` app. Once the latter is fully installed and
+configured, you'll be able to access previous versions of Turrentine CMS pages in the
+admin (using the "History" link in the top right corner).
 
 
 The Name

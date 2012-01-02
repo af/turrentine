@@ -7,6 +7,13 @@ from django.contrib import admin
 from turrentine.models import CMSPage, FileUpload
 from turrentine.views import PageView
 
+# If django-reversion is installed, use its VersionAdmin as an admin base class:
+try:
+    import reversion
+    admin_base_class = reversion.VersionAdmin
+except ImportError:
+    admin_base_class = admin.ModelAdmin
+
 
 class ChangeableContentForm(forms.ModelForm):
     def save(self, *args, **kwargs):
@@ -56,7 +63,7 @@ class FileUploadAdmin(admin.ModelAdmin):
 admin.site.register(FileUpload, FileUploadAdmin)
 
 
-class PageAdmin(admin.ModelAdmin):
+class PageAdmin(admin_base_class):
     form = PageAdminForm
 
     list_display = ('url', 'title', 'is_published', 'template_name', 'created_by', 'created_at',
